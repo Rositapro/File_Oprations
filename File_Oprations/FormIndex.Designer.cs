@@ -28,129 +28,164 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnSaveJson = new Button();
-            butnSaveXml = new Button();
-            btnSaveTxt = new Button();
-            dgvIndexedStudents = new DataGridView();
+            btnDelete = new Button();
+            btnShow = new Button();
+            btnSearch = new Button();
+            label3 = new Label();
+            txtPrice = new TextBox();
+            txtName = new TextBox();
             label2 = new Label();
             label1 = new Label();
-            cmbCareer = new ComboBox();
-            txtName = new TextBox();
+            txtID = new TextBox();
             btnAdd = new Button();
-            ((System.ComponentModel.ISupportInitialize)dgvIndexedStudents).BeginInit();
+            dgvProduct = new DataGridView();
+            btnSaveTxt = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvProduct).BeginInit();
             SuspendLayout();
             // 
-            // btnSaveJson
+            // btnDelete
             // 
-            btnSaveJson.Location = new Point(526, 331);
-            btnSaveJson.Name = "btnSaveJson";
-            btnSaveJson.Size = new Size(75, 23);
-            btnSaveJson.TabIndex = 5;
-            btnSaveJson.Text = "Save Json";
-            btnSaveJson.UseVisualStyleBackColor = true;
-            btnSaveJson.Click += btnSaveJson_Click;
+            btnDelete.Location = new Point(60, 230);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(75, 23);
+            btnDelete.TabIndex = 31;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // butnSaveXml
+            // btnShow
             // 
-            butnSaveXml.Location = new Point(445, 331);
-            butnSaveXml.Name = "butnSaveXml";
-            butnSaveXml.Size = new Size(75, 23);
-            butnSaveXml.TabIndex = 4;
-            butnSaveXml.Text = "Save Xml";
-            butnSaveXml.UseVisualStyleBackColor = true;
-            butnSaveXml.Click += butnSaveXml_Click;
+            btnShow.Location = new Point(60, 172);
+            btnShow.Name = "btnShow";
+            btnShow.Size = new Size(75, 23);
+            btnShow.TabIndex = 30;
+            btnShow.Text = "Show";
+            btnShow.UseVisualStyleBackColor = true;
+            btnShow.Click += btnShow_Click;
             // 
-            // btnSaveTxt
+            // btnSearch
             // 
-            btnSaveTxt.Location = new Point(364, 331);
-            btnSaveTxt.Name = "btnSaveTxt";
-            btnSaveTxt.Size = new Size(75, 23);
-            btnSaveTxt.TabIndex = 3;
-            btnSaveTxt.Text = "Save txt";
-            btnSaveTxt.UseVisualStyleBackColor = true;
-            btnSaveTxt.Click += btnSaveTxt_Click;
+            btnSearch.Location = new Point(60, 201);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(75, 23);
+            btnSearch.TabIndex = 29;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
-            // dgvIndexedStudents
+            // label3
             // 
-            dgvIndexedStudents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvIndexedStudents.Location = new Point(339, 121);
-            dgvIndexedStudents.Name = "dgvIndexedStudents";
-            dgvIndexedStudents.Size = new Size(240, 150);
-            dgvIndexedStudents.TabIndex = 7;
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 105);
+            label3.Name = "label3";
+            label3.Size = new Size(33, 15);
+            label3.TabIndex = 28;
+            label3.Text = "Price";
+            // 
+            // txtPrice
+            // 
+            txtPrice.Location = new Point(60, 102);
+            txtPrice.Name = "txtPrice";
+            txtPrice.Size = new Size(100, 23);
+            txtPrice.TabIndex = 27;
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(60, 73);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(100, 23);
+            txtName.TabIndex = 26;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 48);
+            label2.Location = new Point(6, 81);
             label2.Name = "label2";
-            label2.Size = new Size(41, 15);
-            label2.TabIndex = 16;
-            label2.Text = "Career";
+            label2.Size = new Size(39, 15);
+            label2.TabIndex = 25;
+            label2.Text = "Name";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 15);
+            label1.Location = new Point(6, 50);
             label1.Name = "label1";
-            label1.Size = new Size(39, 15);
-            label1.TabIndex = 15;
-            label1.Text = "Name";
+            label1.Size = new Size(18, 15);
+            label1.TabIndex = 24;
+            label1.Text = "ID";
             // 
-            // cmbCareer
+            // txtID
             // 
-            cmbCareer.FormattingEnabled = true;
-            cmbCareer.Location = new Point(60, 48);
-            cmbCareer.Name = "cmbCareer";
-            cmbCareer.Size = new Size(121, 23);
-            cmbCareer.TabIndex = 14;
-            // 
-            // txtName
-            // 
-            txtName.Location = new Point(60, 12);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(100, 23);
-            txtName.TabIndex = 13;
+            txtID.Location = new Point(60, 45);
+            txtID.Name = "txtID";
+            txtID.Size = new Size(100, 23);
+            txtID.TabIndex = 23;
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(106, 92);
+            btnAdd.Location = new Point(60, 143);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(75, 23);
-            btnAdd.TabIndex = 12;
+            btnAdd.TabIndex = 22;
             btnAdd.Text = "Add";
             btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // dgvProduct
+            // 
+            dgvProduct.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProduct.Location = new Point(177, 45);
+            dgvProduct.Name = "dgvProduct";
+            dgvProduct.Size = new Size(470, 224);
+            dgvProduct.TabIndex = 21;
+            // 
+            // btnSaveTxt
+            // 
+            btnSaveTxt.Location = new Point(182, 275);
+            btnSaveTxt.Name = "btnSaveTxt";
+            btnSaveTxt.Size = new Size(75, 23);
+            btnSaveTxt.TabIndex = 18;
+            btnSaveTxt.Text = "Save txt";
+            btnSaveTxt.UseVisualStyleBackColor = true;
+            btnSaveTxt.Click += btnSaveTxt_Click;
             // 
             // FormIndex
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnDelete);
+            Controls.Add(btnShow);
+            Controls.Add(btnSearch);
+            Controls.Add(label3);
+            Controls.Add(txtPrice);
+            Controls.Add(txtName);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(cmbCareer);
-            Controls.Add(txtName);
+            Controls.Add(txtID);
             Controls.Add(btnAdd);
-            Controls.Add(dgvIndexedStudents);
-            Controls.Add(btnSaveJson);
-            Controls.Add(butnSaveXml);
+            Controls.Add(dgvProduct);
             Controls.Add(btnSaveTxt);
             Name = "FormIndex";
             Text = "FormIndex";
-            ((System.ComponentModel.ISupportInitialize)dgvIndexedStudents).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvProduct).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button btnSaveJson;
-        private Button butnSaveXml;
-        private Button btnSaveTxt;
-        private DataGridView dgvIndexedStudents;
+        private Button btnDelete;
+        private Button btnShow;
+        private Button btnSearch;
+        private Label label3;
+        private TextBox txtPrice;
+        private TextBox txtName;
         private Label label2;
         private Label label1;
-        private ComboBox cmbCareer;
-        private TextBox txtName;
+        private TextBox txtID;
         private Button btnAdd;
+        private DataGridView dgvProduct;
+        private Button btnSaveTxt;
     }
 }

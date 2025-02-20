@@ -14,7 +14,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace File_Oprations
 {
-    public partial class FormSequential : Form
+    public partial class FormSequential : Form 
     {
         private string carpetaDestino = Path.Combine(Application.StartupPath, "DatosEmpleados");
         private string? archivoTxt, archivoXml, archivoJson;
@@ -46,33 +46,26 @@ namespace File_Oprations
             string id = txtID.Text.Trim();
             string name = txtName.Text.Trim();
             string salary = txtSalary.Text.Trim();
-
-            // Validar que los campos no estén vacíos
             if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(salary))
             {
-                MessageBox.Show("Todos los campos son obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("All fields are required.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Verificar si el ID ya existe en la lista
             if (employee.Any(emp => emp.ID == id))
             {
-                MessageBox.Show("El ID ya existe. Introduzca un ID único.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The ID already exists. Enter a unique ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Validar que el nombre no contenga números
-            if (name.Any(char.IsDigit)) // Verifica si el nombre contiene números
+          
+            if (name.Any(char.IsDigit)) 
             {
-                MessageBox.Show("El nombre no puede contener números.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The name cannot contain numbers.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            // Agregar el nuevo empleado si el ID es único
             employee.Add(new Employee { ID = id, Name = name, Salary = salary });
 
-            // Actualizar la tabla
             UpdateDataGridView();
-
-            // Limpiar los campos
             Clear();
         }
 
@@ -80,41 +73,41 @@ namespace File_Oprations
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Title = "Seleccionar archivo de empleados";
-                openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt|Archivos XML (*.xml)|*.xml|Archivos JSON (*.json)|*.json";
+                openFileDialog.Title = "Select employee file";
+                openFileDialog.Filter = "Todos los archivos compatibles (*.txt;*.xml;*.json)|*.txt;*.xml;*.json|Archivos de texto (*.txt)|*.txt|Archivos XML (*.xml)|*.xml|Archivos JSON (*.json)|*.json";
                 openFileDialog.Multiselect = false;
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string archivoSeleccionado = openFileDialog.FileName;
                     string extension = Path.GetExtension(archivoSeleccionado).ToLower();
-                    bool datosCargados = false;
+                    bool dataLoaded = false;
 
                     if (extension == ".txt")
                     {
-                        datosCargados = CargarDesdeTxt(archivoSeleccionado);
+                        dataLoaded = CargarDesdeTxt(archivoSeleccionado);
                     }
                     else if (extension == ".xml")
                     {
-                        datosCargados = CargarDesdeXml(archivoSeleccionado);
+                        dataLoaded = CargarDesdeXml(archivoSeleccionado);
                     }
                     else if (extension == ".json")
                     {
-                        datosCargados = CargarDesdeJson(archivoSeleccionado);
+                        dataLoaded = CargarDesdeJson(archivoSeleccionado);
                     }
                     else
                     {
-                        MessageBox.Show("Formato de archivo no compatible.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Unsupported file format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    if (datosCargados)
+                    if (dataLoaded)
                     {
                         UpdateDataGridView();
                     }
                     else
                     {
-                        MessageBox.Show("El archivo seleccionado está vacío o no contiene datos válidos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("The selected file is empty or does not contain valid data.", "Wearing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -125,62 +118,59 @@ namespace File_Oprations
             string idBuscado = txtID.Text;
             if (string.IsNullOrWhiteSpace(idBuscado))
             {
-                MessageBox.Show("Ingrese un ID para buscar.");
+                MessageBox.Show("Enter an ID to search.");
                 return;
             }
 
             var empleadoEncontrado = employee.FirstOrDefault(emp => emp.ID == idBuscado);
             if (empleadoEncontrado != null)
             {
-                MessageBox.Show($"Empleado encontrado: {empleadoEncontrado.ID}, {empleadoEncontrado.Name}, {empleadoEncontrado.Salary}");
+                MessageBox.Show($"Employee found: {empleadoEncontrado.ID}, {empleadoEncontrado.Name}, {empleadoEncontrado.Salary}");
             }
             else
             {
-                MessageBox.Show("Empleado no encontrado.");
+                MessageBox.Show("Employee not found.");
             }
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            string id = txtID.Text.Trim(); // Tomamos el ID del TextBox (si quieres eliminar por ID)
-
-            // Validar que el campo ID no esté vacío
+            string id = txtID.Text.Trim();
             if (string.IsNullOrWhiteSpace(id))
             {
-                MessageBox.Show("Debe ingresar un ID para eliminar al empleado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("You must enter an ID to delete the employee.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Buscar el empleado por ID
             var employeeToRemove = employee.FirstOrDefault(emp => emp.ID == id);
 
-            if (employeeToRemove != null)  // Si encontramos al empleado
+            if (employeeToRemove != null) 
             {
-                employee.Remove(employeeToRemove);  // Eliminarlo de la lista
-                MessageBox.Show("Empleado eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                UpdateDataGridView();  // Actualizar la vista
-                Clear();  // Limpiar los campos
+                employee.Remove(employeeToRemove);
+                MessageBox.Show("Employee successfully removed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                UpdateDataGridView(); 
+                Clear();  
             }
             else
             {
-                MessageBox.Show("No se encontró un empleado con ese ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("An employee with that ID was not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void btnSaveTxt_Click(object sender, EventArgs e)
         {
             GuardarEnTxt();
-            AbrirCarpeta();
+            OpenFplder();
         }
 
         private void butnSaveXml_Click(object sender, EventArgs e)
         {
             GuardarEnXml();
-            AbrirCarpeta();
+            OpenFplder();
         }
 
         private void btnSaveJson_Click(object sender, EventArgs e)
         {
             GuardarEnJson();
-            AbrirCarpeta();
+            OpenFplder();
         }
         private void GuardarEnTxt()
         {
@@ -192,7 +182,7 @@ namespace File_Oprations
                     sw.WriteLine($"{emp.ID},{emp.Name},{emp.Salary}");
                 }
             }
-            MessageBox.Show($"Datos guardados en TXT\nUbicación: {archivoTxt}");
+            MessageBox.Show($"Data saved in TXT\nUbicación: {archivoTxt}");
         }
 
         private void GuardarEnXml()
@@ -202,7 +192,7 @@ namespace File_Oprations
             {
                 serializer.Serialize(writer, employee);
             }
-            MessageBox.Show($"Datos guardados en XML\nUbicación: {archivoXml}");
+            MessageBox.Show($"Data saved in XML\nUbicación: {archivoXml}");
         }
 
         private void GuardarEnJson()
@@ -255,7 +245,7 @@ namespace File_Oprations
 
             return employee.Count > 0;
         }
-        private void AbrirCarpeta()
+        private void OpenFplder()
         {
             Process.Start("explorer.exe", carpetaDestino);
         }

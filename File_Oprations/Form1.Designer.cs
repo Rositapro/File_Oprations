@@ -32,6 +32,7 @@
             btnSequentialForm = new Button();
             btnIndex = new Button();
             btnDirectAccess = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
             // 
@@ -42,7 +43,7 @@
             // 
             // btnSequentialForm
             // 
-            btnSequentialForm.Location = new Point(367, 106);
+            btnSequentialForm.Location = new Point(106, 122);
             btnSequentialForm.Name = "btnSequentialForm";
             btnSequentialForm.Size = new Size(95, 23);
             btnSequentialForm.TabIndex = 0;
@@ -52,7 +53,7 @@
             // 
             // btnIndex
             // 
-            btnIndex.Location = new Point(367, 135);
+            btnIndex.Location = new Point(106, 151);
             btnIndex.Name = "btnIndex";
             btnIndex.Size = new Size(95, 23);
             btnIndex.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             // btnDirectAccess
             // 
-            btnDirectAccess.Location = new Point(367, 164);
+            btnDirectAccess.Location = new Point(106, 180);
             btnDirectAccess.Name = "btnDirectAccess";
             btnDirectAccess.Size = new Size(95, 23);
             btnDirectAccess.TabIndex = 2;
@@ -70,11 +71,21 @@
             btnDirectAccess.UseVisualStyleBackColor = true;
             btnDirectAccess.Click += btnDirectAccess_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(132, 90);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 3;
+            label1.Text = "Menu";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(333, 291);
+            Controls.Add(label1);
             Controls.Add(btnDirectAccess);
             Controls.Add(btnIndex);
             Controls.Add(btnSequentialForm);
@@ -82,6 +93,7 @@
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -90,5 +102,6 @@
         private Button btnDirectAccess;
         private Button btnIndex;
         private Button btnSequentialForm;
+        private Label label1;
     }
 }

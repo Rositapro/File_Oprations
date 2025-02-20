@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace File_Oprations
 {
-    internal class Career
+    public class Product
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
+        public decimal Price { get; set; }
     }
 }
