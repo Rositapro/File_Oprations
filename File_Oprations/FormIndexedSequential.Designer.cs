@@ -35,7 +35,6 @@
             txtID = new TextBox();
             btnAdd = new Button();
             btnList = new Button();
-            lstbCustomers = new ListBox();
             dtgvStudent = new DataGridView();
             cmbCareer = new ComboBox();
             label3 = new Label();
@@ -108,15 +107,6 @@
             btnList.Text = "List";
             btnList.UseVisualStyleBackColor = true;
             btnList.Click += btnList_Click;
-            // 
-            // lstbCustomers
-            // 
-            lstbCustomers.FormattingEnabled = true;
-            lstbCustomers.ItemHeight = 15;
-            lstbCustomers.Location = new Point(432, 23);
-            lstbCustomers.Name = "lstbCustomers";
-            lstbCustomers.Size = new Size(120, 94);
-            lstbCustomers.TabIndex = 7;
             // 
             // dtgvStudent
             // 
@@ -201,7 +191,6 @@
             Controls.Add(label3);
             Controls.Add(cmbCareer);
             Controls.Add(dtgvStudent);
-            Controls.Add(lstbCustomers);
             Controls.Add(btnList);
             Controls.Add(btnAdd);
             Controls.Add(txtID);
@@ -225,7 +214,6 @@
         private TextBox txtID;
         private Button btnAdd;
         private Button btnList;
-        private ListBox lstbCustomers;
         private DataGridView dtgvStudent;
         private ComboBox cmbCareer;
         private Label label3;

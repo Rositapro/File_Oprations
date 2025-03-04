@@ -43,8 +43,17 @@ namespace File_Oprations
 
         private void ConfigurarComboBoxes()
         {
+            //cmbCareer.DataSource = new BindingSource(carreras, null);
+            //cmbCareer.DisplayMember = "Value";
+            //cmbCareer.ValueMember = "Key";
+
+            //for (int i = 1; i <= 9; i++)
+            //{
+            //    cmbGrado.Items.Add(i.ToString());
+            //}
+            //cmbGrado.SelectedIndex = 0;
             cmbCareer.DataSource = new BindingSource(carreras, null);
-            cmbCareer.DisplayMember = "Value";
+            cmbCareer.DisplayMember = "Key";
             cmbCareer.ValueMember = "Key";
 
             for (int i = 1; i <= 9; i++)
@@ -52,6 +61,10 @@ namespace File_Oprations
                 cmbGrado.Items.Add(i.ToString());
             }
             cmbGrado.SelectedIndex = 0;
+
+            cmbCarreraFiltro.DataSource = new BindingSource(carreras, null);
+            cmbCarreraFiltro.DisplayMember = "Value";
+            cmbCarreraFiltro.ValueMember = "Key";
         }
 
         private void CargarIndice()
@@ -126,14 +139,30 @@ namespace File_Oprations
                 MessageBox.Show("Alumno no encontrado.");
             }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            int id = int.Parse(txtID.Text);
+            if (indice.Remove(id))
+            {
+                GuardarIndice();
+                MessageBox.Show("Alumno eliminado del índice (registro aún existe en archivo).", "Eliminado");
+                CargarAlumnos();
+            }
+            else
+            {
+                MessageBox.Show("ID no encontrado.");
+            }
+        }
+
         private void btnList_Click(object sender, EventArgs e)
         {
             CargarAlumnos();
         }
         private void btnFilterByCareer_Click(object sender, EventArgs e)
         {
-            int carreraId = (int)cmbCareer.SelectedValue;
-            CargarAlumnos(carreraId);
+            int carreraSeleccionada = (int)cmbCarreraFiltro.SelectedValue;
+            CargarAlumnos(carreraSeleccionada);
         }
         private void CargarAlumnos(int? carreraFiltro = null)
         {
@@ -155,21 +184,5 @@ namespace File_Oprations
             }
         }
 
-      
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            int id = int.Parse(txtID.Text);
-            if (indice.Remove(id))
-            {
-                GuardarIndice();
-                MessageBox.Show("Alumno eliminado del índice (registro aún existe en archivo).", "Eliminado");
-                CargarAlumnos();
-            }
-            else
-            {
-                MessageBox.Show("ID no encontrado.");
-            }
-        }
     }
 }
