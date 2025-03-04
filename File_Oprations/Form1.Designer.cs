@@ -43,9 +43,9 @@
             // 
             // btnSequentialForm
             // 
-            btnSequentialForm.Location = new Point(106, 122);
+            btnSequentialForm.Location = new Point(80, 122);
             btnSequentialForm.Name = "btnSequentialForm";
-            btnSequentialForm.Size = new Size(95, 23);
+            btnSequentialForm.Size = new Size(140, 23);
             btnSequentialForm.TabIndex = 0;
             btnSequentialForm.Text = "Sequential";
             btnSequentialForm.UseVisualStyleBackColor = true;
@@ -53,19 +53,19 @@
             // 
             // btnIndex
             // 
-            btnIndex.Location = new Point(106, 151);
+            btnIndex.Location = new Point(80, 151);
             btnIndex.Name = "btnIndex";
-            btnIndex.Size = new Size(95, 23);
+            btnIndex.Size = new Size(140, 23);
             btnIndex.TabIndex = 1;
-            btnIndex.Text = "Index";
+            btnIndex.Text = "Index Sequential";
             btnIndex.UseVisualStyleBackColor = true;
             btnIndex.Click += btnIndex_Click;
             // 
             // btnDirectAccess
             // 
-            btnDirectAccess.Location = new Point(106, 180);
+            btnDirectAccess.Location = new Point(80, 180);
             btnDirectAccess.Name = "btnDirectAccess";
-            btnDirectAccess.Size = new Size(95, 23);
+            btnDirectAccess.Size = new Size(140, 23);
             btnDirectAccess.TabIndex = 2;
             btnDirectAccess.Text = "DirectAccess";
             btnDirectAccess.UseVisualStyleBackColor = true;

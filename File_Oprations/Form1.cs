@@ -15,8 +15,8 @@ namespace File_Oprations
 
         private void btnIndex_Click(object sender, EventArgs e)
         {
-            FormIndex idxForm = new FormIndex();
-            idxForm.Show();
+            FormIndexedSequential idxSeqForm = new FormIndexedSequential();
+            idxSeqForm.Show();
         }
 
         private void btnDirectAccess_Click(object sender, EventArgs e)
