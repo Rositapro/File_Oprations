@@ -12,6 +12,7 @@ namespace File_Oprations
 {
     public partial class FormDirectAccess : Form
     {
+        private string filePath = "students.dat";
         private List<Student> students = new List<Student>();
 
         public FormDirectAccess()
@@ -21,41 +22,47 @@ namespace File_Oprations
             dgvStudents.Columns[0].Name = "ID";
             dgvStudents.Columns[1].Name = "Name";
             dgvStudents.Columns[2].Name = "Age";
+
+            LoadData();
+        }
+        private void LoadData()
+        {
+            if (File.Exists(filePath))
+            {
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                using (BinaryReader reader = new BinaryReader(fs))
+                {
+                    students.Clear();
+                    dgvStudents.Rows.Clear();
+                    while (fs.Position < fs.Length)
+                    {
+                        var student = Student.ReadFromBinary(reader);
+                        students.Add(student);
+                        dgvStudents.Rows.Add(student.ID, student.Name, student.Age);
+                    }
+                }
+            }
         }
         private void btnSaveTxt_Click(object sender, EventArgs e)
         {
-            int id;
-            if (!int.TryParse(txtID.Text, out id))
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                MessageBox.Show("Invalid ID format.");
-                return;
-            }
-
-            var student = students.FirstOrDefault(s => s.ID == id);
-            if (student != null)
-            {
-                students.Remove(student);
-                dgvStudents.Rows.Clear();
-                foreach (var s in students)
+                saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    dgvStudents.Rows.Add(s.ID, s.Name, s.Age);
+                    string exportPath = saveFileDialog.FileName;
+                    using (StreamWriter writer = new StreamWriter(exportPath))
+                    {
+                        foreach (var student in students)
+                        {
+                            writer.WriteLine($"{student.ID},{student.Name},{student.Age}");
+                        }
+                    }
+                    MessageBox.Show($"Data saved to {exportPath}");
                 }
-                MessageBox.Show("Student deleted.");
-            }
-            else
-            {
-                MessageBox.Show("ID not found.");
             }
         }
-        private void butnSaveXml_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnSaveJson_Click(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -73,8 +80,17 @@ namespace File_Oprations
                 return;
             }
 
-            students.Add(new Student { ID = id, Name = name, Age = age });
+            // Agregar el estudiante al archivo binario
+            using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+            using (BinaryWriter writer = new BinaryWriter(fs))
+            {
+                Student student = new Student { ID = id, Name = name, Age = age };
+                student.WriteToBinary(writer);
+            }
+
+            // Actualizar la tabla en pantalla
             dgvStudents.Rows.Add(id, name, age);
+            students.Add(new Student { ID = id, Name = name, Age = age });
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -86,14 +102,26 @@ namespace File_Oprations
                 return;
             }
 
-            var student = students.FirstOrDefault(s => s.ID == id);
-            if (student != null)
+            // Buscar estudiante en el archivo binario
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (BinaryReader reader = new BinaryReader(fs))
             {
-                MessageBox.Show($"Student Found: {student.Name}, Age: {student.Age}");
-            }
-            else
-            {
-                MessageBox.Show("Student not found.");
+                bool found = false;
+                while (fs.Position < fs.Length)
+                {
+                    var student = Student.ReadFromBinary(reader);
+                    if (student.ID == id)
+                    {
+                        MessageBox.Show($"Student Found: {student.Name}, Age: {student.Age}");
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    MessageBox.Show("Student not found.");
+                }
             }
         }
 
@@ -106,47 +134,39 @@ namespace File_Oprations
                 return;
             }
 
-            var student = students.FirstOrDefault(s => s.ID == id);
-            if (student != null)
+            // Eliminar estudiante (solo desde la lista y el archivo binario)
+            students.RemoveAll(s => s.ID == id);
+
+            // Reescribir el archivo binario con los estudiantes restantes
+            using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            using (BinaryWriter writer = new BinaryWriter(fs))
             {
-                students.Remove(student);
-                dgvStudents.Rows.Clear();
-                foreach (var s in students)
+                foreach (var student in students)
                 {
-                    dgvStudents.Rows.Add(s.ID, s.Name, s.Age);
+                    student.WriteToBinary(writer);
                 }
-                MessageBox.Show("Student deleted.");
             }
-            else
+
+            // Actualizar la vista
+            dgvStudents.Rows.Clear();
+            foreach (var student in students)
             {
-                MessageBox.Show("ID not found.");
+                dgvStudents.Rows.Add(student.ID, student.Name, student.Age);
             }
+            MessageBox.Show("Student deleted.");
         }
 
         private void btnShow_Click(object sender, EventArgs e)
         {
+            // Mostrar archivo binario
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-                openFileDialog.Title = "Open Data File";
-
+                openFileDialog.Filter = "Binary Files (*.dat)|*.dat|All Files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string filePath = openFileDialog.FileName;
-                    students.Clear();
-                    dgvStudents.Rows.Clear();
-
-                    foreach (string line in File.ReadAllLines(filePath))
-                    {
-                        string[] parts = line.Split(',');
-                        if (parts.Length == 3 && int.TryParse(parts[0], out int id) && int.TryParse(parts[2], out int age))
-                        {
-                            Student student = new Student { ID = id, Name = parts[1], Age = age };
-                            students.Add(student);
-                            dgvStudents.Rows.Add(student.ID, student.Name, student.Age);
-                        }
-                    }
-                    MessageBox.Show("Data loaded successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    filePath = openFileDialog.FileName;
+                    LoadData();
+                    MessageBox.Show("Data loaded from binary file.");
                 }
             }
         }

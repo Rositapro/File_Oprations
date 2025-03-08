@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             btnSaveTxt = new Button();
-            butnSaveXml = new Button();
-            btnSaveJson = new Button();
             dgvStudents = new DataGridView();
             label2 = new Label();
             label1 = new Label();
@@ -47,33 +45,13 @@
             // 
             // btnSaveTxt
             // 
-            btnSaveTxt.Location = new Point(215, 319);
+            btnSaveTxt.Location = new Point(207, 180);
             btnSaveTxt.Name = "btnSaveTxt";
             btnSaveTxt.Size = new Size(75, 23);
             btnSaveTxt.TabIndex = 0;
             btnSaveTxt.Text = "Save txt";
             btnSaveTxt.UseVisualStyleBackColor = true;
             btnSaveTxt.Click += btnSaveTxt_Click;
-            // 
-            // butnSaveXml
-            // 
-            butnSaveXml.Location = new Point(296, 319);
-            butnSaveXml.Name = "butnSaveXml";
-            butnSaveXml.Size = new Size(75, 23);
-            butnSaveXml.TabIndex = 1;
-            butnSaveXml.Text = "Save Xml";
-            butnSaveXml.UseVisualStyleBackColor = true;
-            butnSaveXml.Click += butnSaveXml_Click;
-            // 
-            // btnSaveJson
-            // 
-            btnSaveJson.Location = new Point(377, 319);
-            btnSaveJson.Name = "btnSaveJson";
-            btnSaveJson.Size = new Size(75, 23);
-            btnSaveJson.TabIndex = 2;
-            btnSaveJson.Text = "Save Json";
-            btnSaveJson.UseVisualStyleBackColor = true;
-            btnSaveJson.Click += btnSaveJson_Click;
             // 
             // dgvStudents
             // 
@@ -187,8 +165,6 @@
             Controls.Add(txtID);
             Controls.Add(btnAdd);
             Controls.Add(dgvStudents);
-            Controls.Add(btnSaveJson);
-            Controls.Add(butnSaveXml);
             Controls.Add(btnSaveTxt);
             Name = "FormDirectAccess";
             Text = "FormDirectAccess";
@@ -200,8 +176,6 @@
         #endregion
 
         private Button btnSaveTxt;
-        private Button butnSaveXml;
-        private Button btnSaveJson;
         private DataGridView dgvStudents;
         private Label label2;
         private Label label1;
