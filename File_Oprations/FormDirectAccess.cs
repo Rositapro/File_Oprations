@@ -79,16 +79,12 @@ namespace File_Oprations
                 MessageBox.Show("Invalid age format.");
                 return;
             }
-
-            // Agregar el estudiante al archivo binario
             using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
             using (BinaryWriter writer = new BinaryWriter(fs))
             {
                 Student student = new Student { ID = id, Name = name, Age = age };
                 student.WriteToBinary(writer);
             }
-
-            // Actualizar la tabla en pantalla
             dgvStudents.Rows.Add(id, name, age);
             students.Add(new Student { ID = id, Name = name, Age = age });
         }
@@ -102,7 +98,6 @@ namespace File_Oprations
                 return;
             }
 
-            // Buscar estudiante en el archivo binario
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             using (BinaryReader reader = new BinaryReader(fs))
             {
@@ -133,11 +128,7 @@ namespace File_Oprations
                 MessageBox.Show("Invalid ID format.");
                 return;
             }
-
-            // Eliminar estudiante (solo desde la lista y el archivo binario)
             students.RemoveAll(s => s.ID == id);
-
-            // Reescribir el archivo binario con los estudiantes restantes
             using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             using (BinaryWriter writer = new BinaryWriter(fs))
             {
@@ -147,7 +138,6 @@ namespace File_Oprations
                 }
             }
 
-            // Actualizar la vista
             dgvStudents.Rows.Clear();
             foreach (var student in students)
             {
@@ -158,7 +148,6 @@ namespace File_Oprations
 
         private void btnShow_Click(object sender, EventArgs e)
         {
-            // Mostrar archivo binario
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "Binary Files (*.dat)|*.dat|All Files (*.*)|*.*";
