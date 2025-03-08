@@ -12,10 +12,11 @@ namespace File_Oprations
 {
     public partial class FormIndexedSequential : Form
     {
-        private string archivoAlumnos = "alumnos.txt";
-        private string archivoIndice = "indice.txt";
-        private Dictionary<int, long> indice = new Dictionary<int, long>();
-        private Dictionary<int, string> carreras = new Dictionary<int, string>
+        private string fileStudents = "students.txt";
+        private string fileIndex = "index.txt";
+        private string fileScanned = "student_scanned.txt";
+        private Dictionary<int, long> index = new Dictionary<int, long>();
+        private Dictionary<int, string> career = new Dictionary<int, string>
         {
             {1, "Informatica"},
             {2, "Electronica"},
@@ -27,32 +28,25 @@ namespace File_Oprations
         public FormIndexedSequential()
         {
             InitializeComponent();
-            CargarIndice();
-            ConfigurarDataGridView();
-            ConfigurarComboBoxes();
+            File.WriteAllText(fileStudents, string.Empty);
+            File.WriteAllText(fileIndex, string.Empty);
+            LoadIndex();
+            ConfigureDataGridView();
+            ConfigureComboBoxes();
         }
 
-        private void ConfigurarDataGridView()
+        private void ConfigureDataGridView()
         {
             dtgvStudent.Columns.Add("ID", "ID");
-            dtgvStudent.Columns.Add("Nombre", "Nombre");
-            dtgvStudent.Columns.Add("Carrera", "Carrera");
+            dtgvStudent.Columns.Add("Name", "Name");
+            dtgvStudent.Columns.Add("Career", "Career");
             dtgvStudent.Columns.Add("Grado", "Grado");
             dtgvStudent.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void ConfigurarComboBoxes()
+        private void ConfigureComboBoxes()
         {
-            //cmbCareer.DataSource = new BindingSource(carreras, null);
-            //cmbCareer.DisplayMember = "Value";
-            //cmbCareer.ValueMember = "Key";
-
-            //for (int i = 1; i <= 9; i++)
-            //{
-            //    cmbGrado.Items.Add(i.ToString());
-            //}
-            //cmbGrado.SelectedIndex = 0;
-            cmbCareer.DataSource = new BindingSource(carreras, null);
+            cmbCareer.DataSource = new BindingSource(career, null);
             cmbCareer.DisplayMember = "Key";
             cmbCareer.ValueMember = "Key";
 
@@ -62,32 +56,32 @@ namespace File_Oprations
             }
             cmbGrado.SelectedIndex = 0;
 
-            cmbCarreraFiltro.DataSource = new BindingSource(carreras, null);
+            cmbCarreraFiltro.DataSource = new BindingSource(career, null);
             cmbCarreraFiltro.DisplayMember = "Value";
             cmbCarreraFiltro.ValueMember = "Key";
         }
 
-        private void CargarIndice()
+        private void LoadIndex()
         {
-            indice.Clear();
-            if (File.Exists(archivoIndice))
+            index.Clear();
+            if (File.Exists(fileIndex))
             {
-                foreach (var linea in File.ReadAllLines(archivoIndice))
+                foreach (var linea in File.ReadAllLines(fileIndex))
                 {
                     var datos = linea.Split('|');
                     if (datos.Length == 2 && int.TryParse(datos[0], out int id) && long.TryParse(datos[1], out long posicion))
                     {
-                        indice[id] = posicion;
+                        index[id] = posicion;
                     }
                 }
             }
         }
 
-        private void GuardarIndice()
+        private void SaveIndex()
         {
-            using (var sw = new StreamWriter(archivoIndice, false))
+            using (var sw = new StreamWriter(fileIndex, false))
             {
-                foreach (var kvp in indice)
+                foreach (var kvp in index)
                 {
                     sw.WriteLine($"{kvp.Key}|{kvp.Value}");
                 }
@@ -96,34 +90,34 @@ namespace File_Oprations
         private void btnAdd_Click(object sender, EventArgs e)
         {
             int id = int.Parse(txtID.Text);
-            string nombre = txtName.Text;
-            int carreraId = (int)cmbCareer.SelectedValue;
+            string name = txtName.Text;
+            int careerID = (int)cmbCareer.SelectedValue;
             string grado = cmbGrado.SelectedItem.ToString();
 
-            if (indice.ContainsKey(id))
+            if (index.ContainsKey(id))
             {
-                MessageBox.Show("ID ya existe en el archivo.");
+                MessageBox.Show("ID already exists in the.");
                 return;
             }
 
-            using (var fs = new FileStream(archivoAlumnos, FileMode.Append, FileAccess.Write))
+            using (var fs = new FileStream(fileStudents, FileMode.Append, FileAccess.Write))
             using (var sw = new StreamWriter(fs))
             {
                 long posicion = fs.Length;
-                sw.WriteLine($"{id}|{nombre}|{carreraId}|{grado}");
-                indice[id] = posicion;
+                sw.WriteLine($"{id}|{name}|{careerID}|{grado}");
+                index[id] = posicion;
             }
 
-            GuardarIndice();
+            SaveIndex();
             MessageBox.Show("Alumno agregado correctamente.");
-            CargarAlumnos();
+            loadStudents();
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
             int id = int.Parse(txtID.Text);
-            if (indice.TryGetValue(id, out long posicion))
+            if (index.TryGetValue(id, out long posicion))
             {
-                using (var fs = new FileStream(archivoAlumnos, FileMode.Open, FileAccess.Read))
+                using (var fs = new FileStream(fileStudents, FileMode.Open, FileAccess.Read))
                 using (var sr = new StreamReader(fs))
                 {
                     fs.Seek(posicion, SeekOrigin.Begin);
@@ -143,46 +137,92 @@ namespace File_Oprations
         private void btnDelete_Click(object sender, EventArgs e)
         {
             int id = int.Parse(txtID.Text);
-            if (indice.Remove(id))
+            if (index.Remove(id))
             {
-                GuardarIndice();
-                MessageBox.Show("Alumno eliminado del índice (registro aún existe en archivo).", "Eliminado");
-                CargarAlumnos();
+                SaveIndex();
+                MessageBox.Show("Pupil removed from index (record still exists in file).", "Removed");
+                loadStudents();
             }
             else
             {
-                MessageBox.Show("ID no encontrado.");
+                MessageBox.Show("ID not found.");
             }
         }
 
         private void btnList_Click(object sender, EventArgs e)
         {
-            CargarAlumnos();
+            loadStudents();
         }
         private void btnFilterByCareer_Click(object sender, EventArgs e)
         {
             int carreraSeleccionada = (int)cmbCarreraFiltro.SelectedValue;
-            CargarAlumnos(carreraSeleccionada);
+            loadStudents(carreraSeleccionada);
         }
-        private void CargarAlumnos(int? carreraFiltro = null)
+        private void loadStudents(int? careerFilter = null)
         {
             dtgvStudent.Rows.Clear();
-            if (File.Exists(archivoAlumnos))
+            if (File.Exists(fileStudents))
             {
-                foreach (var linea in File.ReadAllLines(archivoAlumnos))
+                foreach (var line in File.ReadAllLines(fileStudents))
                 {
-                    var datos = linea.Split('|');
-                    if (datos.Length == 4 && int.TryParse(datos[2], out int carreraId))
+                    var data = line.Split('|');
+                    if (data.Length == 4 && int.TryParse(data[2], out int CereerID))
                     {
-                        if (carreraFiltro == null || carreraId == carreraFiltro)
+                        if (careerFilter == null || CereerID == careerFilter)
                         {
-                            string carreraNombre = carreras.ContainsKey(carreraId) ? carreras[carreraId] : "Desconocida";
-                            dtgvStudent.Rows.Add(datos[0], datos[1], carreraNombre, datos[3]);
+                            string careerName = career.ContainsKey(CereerID) ? career[CereerID] : "Desconocida";
+                            dtgvStudent.Rows.Add(data[0], data[1], careerName, data[3]);
                         }
                     }
                 }
             }
         }
 
+
+        private void btnSaveTxt_Click(object sender, EventArgs e)
+        {
+            using (var sw = new StreamWriter(fileScanned))
+            {
+                foreach (DataGridViewRow row in dtgvStudent.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        string id = row.Cells[0].Value.ToString();
+                        string name = row.Cells[1].Value.ToString();
+                        string career = row.Cells[2].Value.ToString();
+                        string grado = row.Cells[3].Value.ToString();
+                        sw.WriteLine($"{id}|{name}|{career}|{grado}");
+                    }
+                }
+            }
+
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{Path.GetFullPath(fileScanned)}\"");
+        }
+
+        private void btnShowTxt_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory(); // Carpeta actual del programa
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.Title = "Select student file";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    dtgvStudent.Rows.Clear();
+                    string selectedFile = openFileDialog.FileName;
+
+                    foreach (var line in File.ReadAllLines(selectedFile))
+                    {
+                        var data = line.Split('|');
+                        if (data.Length == 4)
+                        {
+                            dtgvStudent.Rows.Add(data[0], data[1], data[2], data[3]);
+                        }
+                    }
+                }
+            }
+        }
     }
+
 }

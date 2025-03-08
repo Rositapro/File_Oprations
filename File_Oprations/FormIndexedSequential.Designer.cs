@@ -43,6 +43,8 @@
             btnDelete = new Button();
             btnFilterByCareer = new Button();
             cmbCarreraFiltro = new ComboBox();
+            btnSaveTxt = new Button();
+            btnShowTxt = new Button();
             ((System.ComponentModel.ISupportInitialize)dtgvStudent).BeginInit();
             SuspendLayout();
             // 
@@ -178,11 +180,33 @@
             cmbCarreraFiltro.Size = new Size(100, 23);
             cmbCarreraFiltro.TabIndex = 15;
             // 
+            // btnSaveTxt
+            // 
+            btnSaveTxt.Location = new Point(347, 155);
+            btnSaveTxt.Name = "btnSaveTxt";
+            btnSaveTxt.Size = new Size(75, 23);
+            btnSaveTxt.TabIndex = 16;
+            btnSaveTxt.Text = "Save txt";
+            btnSaveTxt.UseVisualStyleBackColor = true;
+            btnSaveTxt.Click += btnSaveTxt_Click;
+            // 
+            // btnShowTxt
+            // 
+            btnShowTxt.Location = new Point(428, 155);
+            btnShowTxt.Name = "btnShowTxt";
+            btnShowTxt.Size = new Size(75, 23);
+            btnShowTxt.TabIndex = 17;
+            btnShowTxt.Text = "Show txt";
+            btnShowTxt.UseVisualStyleBackColor = true;
+            btnShowTxt.Click += btnShowTxt_Click;
+            // 
             // FormIndexedSequential
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnShowTxt);
+            Controls.Add(btnSaveTxt);
             Controls.Add(cmbCarreraFiltro);
             Controls.Add(btnFilterByCareer);
             Controls.Add(btnDelete);
@@ -222,5 +246,7 @@
         private Button btnDelete;
         private Button btnFilterByCareer;
         private ComboBox cmbCarreraFiltro;
+        private Button btnSaveTxt;
+        private Button btnShowTxt;
     }
 }
